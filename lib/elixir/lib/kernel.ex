@@ -605,7 +605,7 @@ defmodule Kernel do
   # see https://en.wikipedia.org/wiki/Modulo_operation
   defmacro floor_div(a, n) do
     quote do
-      div(unquote(a), unquote(n)) + div(int_sign(unquote(a)) - 1, 2)
+      div(unquote(a), unquote(n)) + div(int_sign(unquote(a) * unquote(n)) - 1, 2)
     end
   end
 
