@@ -582,7 +582,7 @@ defmodule Kernel do
 
 
   # guard-safe `max` operation, `a` and `b` need to be integers.
-  defmacrop guard_safe_int_max(a, b) do
+  defmacro guard_safe_int_max(a, b) do
     quote do 
       div((unquote(a) + unquote(b)) + abs(unquote(a) - unquote(b)), 2)
     end
@@ -593,7 +593,7 @@ defmodule Kernel do
   #  x == 0  -> max(abs(0), 1) == 1, and div(0, 1) == 0, which is the desired result
   #  x != 0  -> max(abs(x), 1) == abs(x), 
   # so `max(abs(x), 1)` is substituted for `abs(x)`.
-  defmacrop int_sign(x) do
+  defmacro int_sign(x) do
     quote do
       div(unquote(x), guard_safe_int_max(abs(unquote(x)), 1))
     end
@@ -603,7 +603,7 @@ defmodule Kernel do
   # Erlang's BIF `div/2` rounds towards zero.
   # `floor_div/2` always rounds down.
   # see https://en.wikipedia.org/wiki/Modulo_operation
-  defmacrop floor_div(a, n) do
+  defmacro floor_div(a, n) do
     quote do
       div(unquote(a), unquote(n)) + div(int_sign(unquote(a)) - 1, 2)
     end
