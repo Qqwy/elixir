@@ -632,8 +632,20 @@ defmodule Kernel do
   """
   @spec mod(integer, integer) :: integer
   defmacro mod(dividend, divisor) do
-    quote do
-      unquote(dividend) - (unquote(divisor) * floor_div(unquote(dividend), unquote(divisor)))
+    in_module? = (__CALLER__.context == nil)
+    if not in_module? do
+      # Guard-clause implementation
+      quote do
+        unquote(dividend) - (unquote(divisor) * floor_div(unquote(dividend), unquote(divisor)))
+      end
+    else
+      # Normal implementation
+      case rem(dividend, divisor) do
+        remainder when remainder * divisor < 0 ->
+          remainder + divisor
+        remainder ->
+          remainder
+      end
     end
   end
 
