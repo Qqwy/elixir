@@ -571,8 +571,8 @@ defmodule Kernel do
 
       iex> rem(5, 2)
       1
-      iex> rem(-6, 4)
-      -2
+      iex> rem(6, -4)
+      2
 
   """
   @spec rem(integer, integer) :: integer
@@ -626,7 +626,7 @@ defmodule Kernel do
 
       iex> mod(5, 2)
       1
-      iex> mod(-6, 4)
+      iex> mod(6, -4)
       -2
 
   """
@@ -640,11 +640,14 @@ defmodule Kernel do
       end
     else
       # Normal implementation
-      case rem(dividend, divisor) do
-        remainder when remainder * divisor < 0 ->
-          remainder + divisor
-        remainder ->
-          remainder
+      quote do
+        bound_divisor = unquote(divisor)
+        case rem(unquote(dividend), bound_divisor) do
+          remainder when remainder * bound_divisor < 0 ->
+            remainder + bound_divisor
+          remainder ->
+            remainder
+        end
       end
     end
   end
