@@ -531,7 +531,7 @@ defmodule Protocol do
         def __impl__(:protocol), do: unquote(protocol)
       end
 
-    quote do
+    impl_source = quote do
       protocol = unquote(protocol)
       for      = unquote(for)
       name     = Module.concat(protocol, for)
@@ -552,6 +552,9 @@ defmodule Protocol do
         unquote(impl)
       end
     end
+
+    IO.puts Macro.to_string(impl_source)
+    impl_source
   end
 
   @doc false
