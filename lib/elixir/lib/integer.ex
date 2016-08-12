@@ -62,7 +62,7 @@ defmodule Integer do
   @doc """
   Computes the modulo remainder of an integer division.
 
-  `Integer.mod/2` uses floored division, which means that 
+  `Integer.mod/2` uses *floored* division, which means that 
   the result will always have the sign of the `divisor`.
 
   Raises an `ArithmeticError` exception if one of the arguments is not an
