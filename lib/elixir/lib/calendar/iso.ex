@@ -280,8 +280,12 @@ defmodule Calendar.ISO do
       zone_to_string(utc_offset, std_offset, zone_abbr, time_zone)
   end
 
+  def valid_date?(year, month, day) when day in (1..31) and month in (1..12) and year <= 9999 do
+    # year <= 9999 and :calendar.valid_date(year, month, day)
+    day <= days_in_month(year, month)
+  end
   def valid_date?(year, month, day) do
-    year <= 9999 and :calendar.valid_date(year, month, day)
+    false
   end
 
   def valid_time?(hour, minute, second, {microsecond, precision}) do
