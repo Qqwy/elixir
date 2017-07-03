@@ -256,7 +256,7 @@ defmodule Protocol do
   def consolidate(protocol, types) when is_atom(protocol) do
     with {:ok, info} <- beam_protocol(protocol),
          {:ok, code, docs} <- change_debug_info(info, types),
-         do: compile(code, docs)
+         do: (IO.inspect(Macro.to_string(code)); compile(code, docs))
   end
 
   defp beam_protocol(protocol) do
